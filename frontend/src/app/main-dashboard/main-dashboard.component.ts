@@ -1,4 +1,10 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+
+type  User = {
+  firstName: string,
+  lastName: string,
+  email: string
+}
 
 @Component({
   selector: 'app-main-dashboard',
@@ -7,5 +13,7 @@ import { Component } from '@angular/core';
   styleUrl: './main-dashboard.component.css'
 })
 export class MainDashboardComponent {
+
+ 
 
 }
