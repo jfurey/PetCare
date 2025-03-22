@@ -5,11 +5,12 @@ import pets, users, contacts, vaccinations, activities, appointments, diets, med
 app = Flask(__name__)
 
 # Configure database
-# app.config['MYSQL_HOST'] = 'localhost'
-# app.config['MYSQL_USER'] = 'root'
-# app.config['MYSQL_PASSWORD'] = 'password'
-# app.config['MYSQL_DB'] = 'petcare_database'
-# mysql = MySQL(app)
+app.config['MYSQL_HOST'] = 'petcare-db.cbyc0go6qmwd.us-east-2.rds.amazonaws.com'  # AWS endpoint
+app.config['MYSQL_USER'] = 'admin'  # Master username
+app.config['MYSQL_PASSWORD'] = 'csci4830db!'  # Master password
+app.config['MYSQL_DB'] = 'petcare_database'
+mysql = MySQL(app)
+app.extensions['mysql'] = mysql
 
 app.register_blueprint(pets.bp)
 app.register_blueprint(users.bp)
