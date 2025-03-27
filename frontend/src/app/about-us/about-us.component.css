@@ -1,0 +1,27 @@
+.app-container{
+    margin: 25px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+    align-items: center;
+    
+}
+
+.text-column{
+    padding: 20px;
+}
+
+.image-column {
+    width: 100%; /* Set a specific width for the image column */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .image-column img {
+    
+    width: 500px; /* Set a specific width */
+    height: 350px; /* Maintain aspect ratio */
+    margin-bottom: 10px; /* Space between images */
+  }

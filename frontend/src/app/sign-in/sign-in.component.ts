@@ -28,4 +28,7 @@ export class SignInComponent implements OnInit {
     this.router.navigate(['/main-dashboard']);
   }
 
+  goToSignUp(){
+    this.router.navigate(['sign-up']);
+}
 }

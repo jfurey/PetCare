@@ -1,0 +1,10 @@
+.contact-container{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 15px;
+    font-family: Arial, sans-serif;
+}
+
+.content{
+    grid-column-start: 2;
+}

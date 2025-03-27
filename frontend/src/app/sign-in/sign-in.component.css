@@ -1,0 +1,13 @@
+.app-container{
+    height: 100%;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    justify-content: center;
+    align-items: center;
+    font-family: Arial, sans-serif;
+}
+
+.content{
+    grid-column-start: 2;
+
+}
