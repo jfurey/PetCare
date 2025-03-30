@@ -114,7 +114,7 @@ CREATE TABLE appointments (
 );
 
 -- Add indexes on foreign keys for better performance
-USE pet_care;
+-- USE pet_care;  -- this line may not be needed
 CREATE INDEX idx_pet_ownership_pet_id ON pet_ownership(pet_id);
 CREATE INDEX idx_pet_ownership_user_id ON pet_ownership(user_id);
 CREATE INDEX idx_pet_sharing_pet_id ON pet_sharing(pet_id);
