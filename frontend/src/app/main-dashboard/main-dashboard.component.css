@@ -1,0 +1,19 @@
+.app-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+    align-items: center;
+    height: 100%;
+}
+
+.main-dashboard{
+    text-align: center;
+    grid-template-columns: 1;
+}
+
+
+.pet-details{
+    margin: 15px;
+    grid-template-columns: 1;
+
+}

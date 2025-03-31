@@ -1,8 +1,11 @@
 from flask import Flask, jsonify
 from flask_mysqldb import MySQL
+from flask_cors import CORS  # Import CORS
 import pets, users, contacts, vaccinations, activities, appointments, diets, medications
 
 app = Flask(__name__)
+
+CORS(app)
 
 # Configure database
 app.config['MYSQL_HOST'] = 'petcare-db.cbyc0go6qmwd.us-east-2.rds.amazonaws.com'  # AWS endpoint
