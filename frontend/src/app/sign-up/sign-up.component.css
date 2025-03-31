@@ -5,6 +5,10 @@
     font-family: Arial, sans-serif;
 }
 
+.successAccount{
+    color:coral;
+}
+
 .content{
     grid-column-start: 2;
 }

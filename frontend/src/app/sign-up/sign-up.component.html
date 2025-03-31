@@ -7,7 +7,7 @@
         <div>
             <h3>Sign Up</h3>
             <br>
-            <form [formGroup]="signUpForm" (ngSubmit)="onSubmit()" >
+            <form [formGroup]="signUpForm" >
                 <div class="form-group">
                     <label for="first_name">First Name: </label>
                     <input type="text" class="form-control" placeholder="First Name"
@@ -30,7 +30,12 @@
                     formControlName="password">   
                 </div>
 
-                <button type="button" class="btn btn-primary">Create account</button>
+                <button (click)="onSubmit()" type="button" class="btn btn-primary" [disabled]="this.signUpForm.invalid">Create account</button>
+
+                <br>
+                <div class="successAccount" *ngIf="displayMessage">
+                    <p><strong>You've successfully created an account!</strong></p>
+                </div>
                 
             </form>
 

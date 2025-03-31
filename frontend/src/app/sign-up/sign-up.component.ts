@@ -16,6 +16,7 @@ type  User = {
 export class SignUpComponent implements OnInit {
 
   signUpForm!: FormGroup;
+  displayMessage = false;
 
   ngOnInit(): void {
 
@@ -30,11 +31,10 @@ export class SignUpComponent implements OnInit {
     
   }
 
-  
-
   onSubmit() {
     this.signUpForm.value;
     console.log(this.signUpForm.value);
+    this.displayMessage = true;
   }
 
 }
