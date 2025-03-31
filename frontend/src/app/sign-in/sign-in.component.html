@@ -1,0 +1,30 @@
+<div class="app-container">
+    <div class="content">
+            <h1 class="text-center">Welcome to PetCare</h1>
+            <br>
+            <br>
+            <h3>Hello! Sign In</h3>
+            <br>
+            <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+                <div class="form-group">
+                    <label for="email">Email address:</label>         
+                    <input type="email" class="form-control" placeholder="Enter email"
+                    formControlName="username" name="email">
+                    <small *ngIf="userExists">User exists! try again or create an account</small>
+                            
+                </div>
+                <div class="form-group">
+                    <label for="password">Password:</label>            
+                    <input type="password" class="form-control" placeholder="Password"
+                    formControlName="password">   
+                </div>
+
+                
+
+                <button class="btn btn-primary" type="submit" [disabled]="loginForm.invalid">Sign In</button>
+            </form>
+            <br>
+            <button (click)="goToSignUp()" class="btn btn-success" type="submit">Go create an account</button>
+    </div> 
+</div>
+    

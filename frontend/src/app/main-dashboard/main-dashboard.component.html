@@ -1,0 +1,29 @@
+<div class="app-container">
+    
+        <h1 class="main-dashboard">Welcome {{pet.name}}</h1>
+    
+        <div class="pet-details">
+            <!-- <h2>{{ pet.name }}</h2> -->
+            <img [src]="pet.profile_picture" alt="{{ pet.name }}'s profile picture" />
+            <p><strong>Species:</strong> {{ pet.species }}</p>
+            <p><strong>Breed:</strong> {{ pet.breed }}</p>
+            <p><strong>Age:</strong> {{ pet.age }} years</p>
+            <p><strong>Weight:</strong> {{ pet.weight }} kg</p>
+            <p><strong>Gender:</strong> {{ pet.gender }}</p>
+            
+            <h3>Owner Details:</h3>
+            <ul>
+            <li *ngFor="let owner of pet.owners">
+                <p><strong>Name:</strong> {{ owner.first_name }} {{ owner.last_name }}</p>
+                <p><strong>Email:</strong> {{ owner.email }}</p>
+                <p><strong>Role:</strong> {{ owner.role }}</p>
+            </li>
+            </ul>
+        </div>
+
+</div>
+
+
+
+
+
