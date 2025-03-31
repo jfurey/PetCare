@@ -28,10 +28,10 @@ const routes: Routes = [
     path: 'contact-us',
     component: ContactUsComponent
   },
-  // {
-  //   path:'', redirectTo:'sign-up', 
-  //   pathMatch: 'full' 
-  // },
+  {
+    path:'', redirectTo:'sign-up', 
+    pathMatch: 'full' 
+  },
   
 ];
 

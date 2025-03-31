@@ -62,13 +62,16 @@ export class SignInComponent implements OnInit {
             
           }
         }
-        if (this.userExists == true) {
-          console.log('User already exists');
-          this.loginForm.reset();
-          this.userExists = false;
+        if (this.userExists === true) {
+          this.goToMainDashboard();
+          console.log('inside the userExists===true:', this.userExists);
+          
+          
         }
         else {
-          this.goToMainDashboard();
+          this.loginForm.reset();
+          this.userExists = false;
+          console.log('inside the userExists===false:', this.userExists);
         }
       
       },

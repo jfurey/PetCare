@@ -8,6 +8,18 @@ type User = {
   phone: string;
 }
 
+type Pet = {
+  age: string;
+  breed: string;
+  gender: string;
+  name: string;
+  owners: any[];
+  pet_id: number;
+  profile_picture: any;
+  species: string;
+  weight: string;
+}
+
 @Component({
   selector: 'app-main-dashboard',
   standalone: false,
@@ -18,7 +30,7 @@ export class MainDashboardComponent implements OnInit{
 
   constructor(private petCareService: PetCareService){}
 
-  pets: object[] = []
+  pet!: Pet;
 
   users: User[] = []
 
@@ -30,8 +42,9 @@ export class MainDashboardComponent implements OnInit{
   getPets() {
     this.petCareService.getPets().subscribe({
       next: (response) => {
-        console.log("list of pets received from backend: ", response);
-        this.pets = response;
+        console.log("Pet received from backend: ", response);
+        this.pet = response;
+        console.log("this.pet", this.pet);
         
       }
     })
