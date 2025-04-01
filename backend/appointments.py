@@ -106,5 +106,40 @@ def delete_appointment(appointment_id):
 
 @bp.put("/<int:appointment_id>", strict_slashes=False)
 def update_appointment(appointment_id):
-    # TODO: read the request body to get what needs to be updated for the appointment
-    return {}
+    # Update an appointment's details
+    data = request.get_json()
+
+    update_fields = []
+    values = []
+
+    for field in ["pet_id", "contact_id", "appointment_type", "other_appt_type", "appointment_date", "appointment_time",
+                  "notes"]:
+        if field in data:
+            update_fields.append(f"{field} = %s")
+            values.append(data[field])
+
+    if not update_fields:
+        return jsonify({"error": "No fields provided for update"}), 400
+
+    # Validate appointment_type if being updated
+    if "appointment_type" in data and data["appointment_type"] not in VALID_APPOINTMENT_TYPES:
+        return jsonify({"error": f"Invalid appointment_type. Must be one of {list(VALID_APPOINTMENT_TYPES)}"}), 400
+
+    # If appointment_type is not "Other", remove other_appt_type from update
+    if "appointment_type" in data and data["appointment_type"] != "Other" and "other_appt_type" in update_fields:
+        update_fields.remove("other_appt_type = %s")
+        values.remove(data.get("other_appt_type"))
+
+    values.append(appointment_id)
+
+    cursor = current_app.extensions['mysql'].connection.cursor()
+    cursor.execute(
+        f"UPDATE appointments SET {', '.join(update_fields)} WHERE appointment_id = %s",
+        tuple(values)
+    )
+    affected_rows = cursor.rowcount
+    current_app.extensions['mysql'].connection.commit()
+
+    if affected_rows == 0:
+        return jsonify({"error": "Appointment not found"}), 404
+    return jsonify({"message": "Appointment updated successfully"}), 200
