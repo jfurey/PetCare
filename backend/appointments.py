@@ -1,14 +1,23 @@
 # Appointments API routes
 
-from flask import Blueprint
+from flask import Blueprint, jsonify, request, current_app
+import MySQLdb.cursors
 
 bp = Blueprint("appointments", __name__, url_prefix="/appointments")
 
 
 @bp.get("", strict_slashes=False)
 def get_appointments():
-    # TODO: return list of appointments
-    return []  # returning a blank list for testing
+    # connect to database and retrieve activities
+    cursor = current_app.extensions['mysql'].connection.cursor(MySQLdb.cursors.DictCursor)
+    cursor.execute(
+        "SELECT appointment_id, pet_id, contact_id, appointment_type, other_appt_type, appointment_date, appointment_time, notes FROM appointments")
+
+    appointment_list = cursor.fetchall()
+
+    #convert to dictionary
+    appointments = {appointment['appointment_id']: appointment for appointment in appointment_list}
+    return jsonify(appointments)
 
 
 @bp.post("", strict_slashes=False)
