@@ -93,5 +93,39 @@ def delete_activity(activity_id):
 
 @bp.put("/<int:activity_id>", strict_slashes=False)
 def update_activity(activity_id):
-    # TODO: read the request body to get what needs to be updated for the activity
-    return {}
+    # Update an existing activity
+    data = request.json
+    fields = []
+    values = []
+
+    for key in ["pet_id", "activity_type", "other_activity_type", "duration_minutes", "activity_date", "notes"]:
+        if key in data:
+            # Validation for ENUM field
+            if key == "activity_type" and data[key] not in VALID_ACTIVITY_TYPES:
+                return jsonify({"error": f"Invalid activity_type. Must be one of {VALID_ACTIVITY_TYPES}"}), 400
+
+            # Ensure 'other_activity_type' is only used for "Other"
+            if key == "other_activity_type" and data.get("activity_type") != "Other":
+                continue  # Skip if activity_type is NOT "Other"
+
+            # Ensure 'duration_minutes' is positive
+            if key == "duration_minutes" and (not isinstance(data[key], int) or data[key] <= 0):
+                return jsonify({"error": "duration_minutes must be a positive integer"}), 400
+
+            fields.append(f"{key} = %s")
+            values.append(data[key])
+
+    if not fields:
+        return jsonify({"error": "No fields to update"}), 400
+
+    values.append(activity_id)
+    query = f"UPDATE activity_logs SET {', '.join(fields)} WHERE activity_id = %s"
+
+    cursor = current_app.extensions['mysql'].connection.cursor()
+    cursor.execute(query, values)
+
+    if cursor.rowcount == 0:
+        return jsonify({"error": "Activity not found"}), 404
+
+    current_app.extensions['mysql'].connection.commit()
+    return jsonify({"message": "Activity updated successfully"}), 200
