@@ -66,14 +66,29 @@ def add_activity():
 
 @bp.get("/<int:activity_id>", strict_slashes=False)
 def get_specific_activity(activity_id):
-    # TODO: return the activity that equals the activity_id
-    return {}
+    # Retrieve a specific activity by ID
+    cursor = current_app.extensions['mysql'].connection.cursor(MySQLdb.cursors.DictCursor)
+    cursor.execute("SELECT * FROM activity_logs WHERE activity_id = %s", (activity_id,))
+
+    activity = cursor.fetchone()
+
+    if activity:
+        return jsonify(activity)
+    else:
+        return jsonify({"error": "Activity not found"}), 404
 
 
 @bp.delete("/<int:activity_id>", strict_slashes=False)
 def delete_activity(activity_id):
-    # TODO: delete the activity that equals the activity_id
-    return {}
+    # Delete an activity by ID
+    cursor = current_app.extensions['mysql'].connection.cursor()
+    cursor.execute("DELETE FROM activity_logs WHERE activity_id = %s", (activity_id,))
+
+    if cursor.rowcount == 0:
+        return jsonify({"error": "Activity not found"}), 404
+
+    current_app.extensions['mysql'].connection.commit()
+    return jsonify({"message": "Activity deleted successfully"}), 200
 
 
 @bp.put("/<int:activity_id>", strict_slashes=False)
