@@ -68,17 +68,40 @@ def add_appointment():
     return jsonify({"message": "Appointment added successfully", "appointment_id": cursor.lastrowid}), 201
 
 
-
 @bp.get("/<int:appointment_id>", strict_slashes=False)
 def get_specific_appointment(appointment_id):
-    # TODO: return the appointment that equals the appointment_id
-    return {}
+    # Retrieve a specific appointment by ID
+    cursor = current_app.extensions['mysql'].connection.cursor(MySQLdb.cursors.DictCursor)
+    cursor.execute(
+        """
+        SELECT appointment_id, pet_id, contact_id, appointment_type, other_appt_type, appointment_date,
+        appointment_time, notes
+        FROM appointments WHERE appointment_id = %s
+        """,
+        (appointment_id,)
+    )
+
+    appointment = cursor.fetchone()
+
+    if appointment:
+        if isinstance(appointment["appointment_time"], timedelta):
+            appointment["appointment_time"] = str(appointment["appointment_time"])
+        return jsonify(appointment)
+
+    return jsonify({"error": "Appointment not found"}), 404
 
 
 @bp.delete("/<int:appointment_id>", strict_slashes=False)
 def delete_appointment(appointment_id):
-    # TODO: delete the appointment that equals the appointment_id
-    return {}
+    # Delete an appointment by ID
+    cursor = current_app.extensions['mysql'].connection.cursor()
+    cursor.execute("DELETE FROM appointments WHERE appointment_id = %s", (appointment_id,))
+    affected_rows = cursor.rowcount
+    current_app.extensions['mysql'].connection.commit()
+
+    if affected_rows == 0:
+        return jsonify({"error": "Appointment not found"}), 404
+    return jsonify({"message": "Appointment deleted successfully"}), 200
 
 
 @bp.put("/<int:appointment_id>", strict_slashes=False)
