@@ -45,15 +45,18 @@ export class PetProfileComponent implements OnInit {
   // Declare the method for the 'change' event
   onPetSpeciesChange(event: any): void {
     const selectedSpecies = event.target.value;
+    const otherPetSpeciesControl = this.petProfileForm.get('otherPetSpecies');
+    
     if (selectedSpecies === 'Other') {
-      // Logic to show a text input for the 'Other' species
-      // For example, set a flag or do something specific for the 'Other' option
-      this.petProfileForm.get('otherPetSpecies')?.setValidators(Validators.required);
+      // If 'Other' is selected, make the text input required
+      otherPetSpeciesControl?.setValidators(Validators.required);
     } else {
-      // If not 'Other', clear the value or reset validators for 'otherPetSpecies'
-      this.petProfileForm.get('otherPetSpecies')?.setValue('');
-      this.petProfileForm.get('otherPetSpecies')?.clearValidators();
+      // For all other selections, clear validators and reset the field
+      otherPetSpeciesControl?.clearValidators();
+      otherPetSpeciesControl?.setValue('');
     }
+    // Update the validation state immediately
+    otherPetSpeciesControl?.updateValueAndValidity();
   }
 
   onSubmit() {
