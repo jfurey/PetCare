@@ -10,6 +10,7 @@ import { AboutUsComponent } from './about-us/about-us.component';
 import { ContactUsComponent } from './contact-us/contact-us.component';
 import { provideHttpClient } from '@angular/common/http';
 import { PetProfileComponent } from './create-pet-profile/create-pet-profile.component';
+import { RouterModule } from '@angular/router';
 
 @NgModule({
   declarations: [
@@ -26,6 +27,9 @@ import { PetProfileComponent } from './create-pet-profile/create-pet-profile.com
     AppRoutingModule,
     FormsModule,
     ReactiveFormsModule,
+    RouterModule.forRoot([
+      { path: 'user', loadComponent: () => import('./user/user.component').then(m => m.UserComponent) },
+    ])
   ],
   providers: [provideHttpClient()],
   bootstrap: [AppComponent]

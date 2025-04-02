@@ -18,4 +18,13 @@ export class PetCareService {
   getUsers(): Observable<any> {
     return this.http.get<any>(`${this.baseUrl}/users`)
   }
+
+  getUserProfile(): Observable<any> {
+    return this.http.get<any>(`${this.baseUrl}/user-profile`);
+  }
+
+  updateUserProfile(profile: any): Observable<any> {
+    return this.http.post<any>(`${this.baseUrl}/user-profile`, profile);
+  }
+
 }

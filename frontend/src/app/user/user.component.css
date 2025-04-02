@@ -1,0 +1,14 @@
+.app-container{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-column-start: 2;
+    font-family: Arial, sans-serif;
+}
+
+.successAccount{
+    color:coral;
+}
+
+.content{
+    grid-column-start: 2;
+}
