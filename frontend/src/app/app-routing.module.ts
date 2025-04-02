@@ -5,6 +5,7 @@ import { SignInComponent } from './sign-in/sign-in.component';
 import { SignUpComponent } from './sign-up/sign-up.component';
 import { AboutUsComponent } from './about-us/about-us.component';
 import { ContactUsComponent } from './contact-us/contact-us.component';
+import { PetProfileComponent } from './create-pet-profile/create-pet-profile.component';
 
 
 const routes: Routes = [
@@ -29,7 +30,11 @@ const routes: Routes = [
     component: ContactUsComponent
   },
   {
-    path:'', redirectTo:'sign-up', 
+    path: 'create-pet-profile',
+    component: PetProfileComponent
+  },
+  {
+    path:'', redirectTo:'sign-in', 
     pathMatch: 'full' 
   },
   

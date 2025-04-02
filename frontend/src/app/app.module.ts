@@ -9,6 +9,7 @@ import { SignUpComponent } from './sign-up/sign-up.component';
 import { AboutUsComponent } from './about-us/about-us.component';
 import { ContactUsComponent } from './contact-us/contact-us.component';
 import { provideHttpClient } from '@angular/common/http';
+import { PetProfileComponent } from './create-pet-profile/create-pet-profile.component';
 
 @NgModule({
   declarations: [
@@ -17,7 +18,8 @@ import { provideHttpClient } from '@angular/common/http';
     SignInComponent,
     SignUpComponent,
     AboutUsComponent,
-    ContactUsComponent
+    ContactUsComponent,
+    PetProfileComponent
   ],
   imports: [
     BrowserModule,

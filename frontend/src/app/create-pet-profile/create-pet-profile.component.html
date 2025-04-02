@@ -1,0 +1,152 @@
+<div class="app-container">
+    <div class="content">
+        <h1 class="text-center">Create Your Pet's Profile</h1>
+        <br>
+        
+        <div>
+            <h3>Pet Information</h3>
+            <br>
+            <form [formGroup]="petProfileForm">
+                <div class="form-group">
+                    <label for="pet_species">Pet Species:</label>
+                    <select 
+                        class="form-control" 
+                        formControlName="petSpecies" 
+                        name="petSpecies" 
+                        (change)="onPetSpeciesChange($event)">
+                        <option value="Dog">Dog</option>
+                        <option value="Cat">Cat</option>
+                        <option value="Bird">Bird</option>
+                        <option value="Fish">Fish</option>
+                        <option value="Hamster">Hamster</option>
+                        <option value="Rabbit/Bunny">Rabbit/Bunny</option>
+                        <option value="Guinea Pig">Guinea Pig</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+                
+                <div 
+                    class="form-group" 
+                    *ngIf="petProfileForm.get('petSpecies')?.value === 'Other'">
+                    <label for="otherPetSpecies">Specify Pet Species:</label>
+                    <input 
+                        type="text" 
+                        class="form-control" 
+                        formControlName="otherPetSpecies" 
+                        name="otherPetSpecies">
+                </div>
+                
+                <div class="form-group">
+                    <label for="pet_name">Pet's Name:</label>
+                    <input 
+                        type="text" 
+                        class="form-control" 
+                        placeholder="If not applicable enter N/A" 
+                        formControlName="petName" 
+                        name="petName">
+                </div>
+                
+                <div class="form-group">
+                    <label for="age">Age:</label>
+                    <input 
+                        type="number" 
+                        class="form-control" 
+                        formControlName="age" 
+                        name="age" 
+                        min="0">
+                </div>
+                
+                <div class="form-group">
+                    <label for="breed">Breed:</label>
+                    <input 
+                        type="text" 
+                        class="form-control" 
+                        placeholder="If not applicable enter N/A" 
+                        formControlName="breed" 
+                        name="breed">
+                </div>
+                
+                <!-- Adjusted sex field: added "Other" without additional input -->
+                <div class="form-group">
+                    <label for="sex">Sex:</label>
+                    <select 
+                        class="form-control" 
+                        formControlName="sex" 
+                        name="sex">
+                        <option value="Male">Male</option>
+                        <option value="Female">Female</option>
+                        <option value="Other">Other</option> <!-- Added "Other" without text box -->
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="color">Color/Markings:</label>
+                    <input 
+                        type="text" 
+                        class="form-control" 
+                        placeholder="If not applicable enter N/A" 
+                        formControlName="color" 
+                        name="color">
+                </div>
+                
+                <div class="form-group">
+                    <label for="microchip">Microchip Number (Optional):</label>
+                    <input 
+                        type="text" 
+                        class="form-control" 
+                        formControlName="microchip" 
+                        name="microchip">
+                </div>
+                
+                <div class="form-group">
+                    <label for="vet_name">Veterinarian's Name:</label>
+                    <input 
+                        type="text" 
+                        class="form-control" 
+                        placeholder="If not applicable enter N/A" 
+                        formControlName="vetName" 
+                        name="vetName">
+                </div>
+                
+                <div class="form-group">
+                    <label for="illnesses">Illnesses/Impairments:</label>
+                    <input 
+                        type="text" 
+                        class="form-control" 
+                        placeholder="If not applicable enter N/A" 
+                        formControlName="illnesses" 
+                        name="illnesses">
+                </div>
+                
+                <div class="form-group">
+                    <label for="medications">Medications:</label>
+                    <input 
+                        type="text" 
+                        class="form-control" 
+                        placeholder="If not applicable enter N/A" 
+                        formControlName="medications" 
+                        name="medications">
+                </div>
+                
+                <button 
+                    (click)="onSubmit()" 
+                    type="button" 
+                    class="btn btn-primary" 
+                    [disabled]="petProfileForm.invalid">
+                    Create Profile
+                </button>
+                
+                <br>
+                <!-- Added two lines of space under the button -->
+                <div style="margin-top: 20px;"></div>
+                
+                <div class="successMessage" *ngIf="displayMessage">
+                    <p><strong>Your pet's profile has been successfully created!</strong></p>
+                </div>
+                
+                <!-- Added two lines of space under the success message -->
+                <div style="margin-top: 20px;"></div>
+            </form>
+        </div>
+    </div>
+</div>
