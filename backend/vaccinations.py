@@ -86,5 +86,5 @@ def update_vaccination(vaccination_id):
 from flask import Blueprint, request, jsonify, current_app
 import MySQLdb.cursors
 
-bp = Blueprint("medications", __name__, url_prefix="/medications")
+bp = Blueprint("vaccinations", __name__, url_prefix="/vaccinations")
 

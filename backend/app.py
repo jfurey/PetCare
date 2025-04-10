@@ -1,7 +1,8 @@
-from flask import Flask, jsonify
+from flask import Flask, jsonify, send_from_directory
 from flask_mysqldb import MySQL
 from flask_cors import CORS  # Import CORS
 import pets, users, contacts, vaccinations, activities, appointments, diets, medications
+import os
 
 app = Flask(__name__)
 
@@ -14,6 +15,14 @@ app.config['MYSQL_PASSWORD'] = 'csci4830db!'  # Master password
 app.config['MYSQL_DB'] = 'petcare_database'
 mysql = MySQL(app)
 app.extensions['mysql'] = mysql
+
+# Add route to serve pet images
+@app.route('/pet_images/<filename>')
+def get_pet_image(filename):
+    return send_from_directory(
+        os.path.join(os.getcwd(), 'static', 'pet_images'),
+        filename
+    )
 
 app.register_blueprint(pets.bp)
 app.register_blueprint(users.bp)
