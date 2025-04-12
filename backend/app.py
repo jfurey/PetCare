@@ -1,8 +1,12 @@
 from flask import Flask, jsonify, send_from_directory
 from flask_mysqldb import MySQL
 from flask_cors import CORS  # Import CORS
+<<<<<<< Updated upstream
 import pets, users, contacts, vaccinations, activities, appointments, diets, medications
 import os
+=======
+import pets, users, contacts, vaccinations, activities, share, appointments, diets, medications
+>>>>>>> Stashed changes
 
 app = Flask(__name__)
 
@@ -32,6 +36,7 @@ app.register_blueprint(activities.bp)
 app.register_blueprint(appointments.bp)
 app.register_blueprint(diets.bp)
 app.register_blueprint(medications.bp)
+app.register_blueprint(share.bp)
 
 
 if __name__ == "__main__":
