@@ -29,7 +29,7 @@ const routes: Routes = [
     component: ContactUsComponent
   },
   {
-    path:'', redirectTo:'sign-up', 
+    path:'', redirectTo:'sign-in', 
     pathMatch: 'full' 
   },
   
