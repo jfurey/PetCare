@@ -12,6 +12,11 @@ def get_pets():
         cursor.execute("SELECT pet_id, name, species, breed, age, weight, gender, profile_picture FROM pets")
         pets_list = cursor.fetchall()
 
+        # Add full image URL for each pet
+        for pet in pets_list:
+            if pet['profile_picture']:
+                pet['profile_picture_url'] = f'/pet_images/{pet["profile_picture"]}'
+
         # Convert to dictionary with pet_id as key
         pets = {pet['pet_id']: pet for pet in pets_list}
         return jsonify(pets)
@@ -68,6 +73,10 @@ def get_specific_pet(pet_id):
 
         if not pet:
             return jsonify({"error": "Pet not found"}), 404
+
+        # Add full image URL if profile picture exists
+        if pet['profile_picture']:
+            pet['profile_picture_url'] = f'/pet_images/{pet["profile_picture"]}'
 
         # Get ownership information
         cursor.execute("""
@@ -178,6 +187,12 @@ def get_pets_by_owner(user_id):
         """, (user_id,))
 
         pets = cursor.fetchall()
+
+        # Add full image URL to each pet
+        for pet in pets:
+            if pet['profile_picture']:
+                pet['profile_picture_url'] = f'/pet_images/{pet["profile_picture"]}'
+
         return jsonify(pets)
     except Exception as e:
         return jsonify({"error": str(e)}), 500
