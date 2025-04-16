@@ -1,7 +1,6 @@
 from flask import Flask, jsonify, send_from_directory
 from flask_mysqldb import MySQL
-import pets, users, contacts, vaccinations, activities, share, appointments, diets, medications
-
+import pets, users, contacts, vaccinations, activities, share, appointments, diets, medications, resources
 
 app = Flask(__name__)
 
@@ -31,6 +30,7 @@ app.register_blueprint(appointments.bp)
 app.register_blueprint(diets.bp)
 app.register_blueprint(medications.bp)
 app.register_blueprint(share.bp)
+app.register_blueprint(resources.bp)
 
 
 if __name__ == "__main__":
