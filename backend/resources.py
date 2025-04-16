@@ -3,14 +3,12 @@ import MySQLdb.cursors
 
 bp = Blueprint("resources", __name__, url_prefix="/resources")
 
-
 @bp.get("", strict_slashes=False)
 def get_resources():
     cursor = current_app.extensions['mysql'].connection.cursor(MySQLdb.cursors.DictCursor)
     cursor.execute("SELECT * FROM resources")
     results = cursor.fetchall()
     return jsonify(results)
-
 
 @bp.post("", strict_slashes=False)
 def add_resource():
