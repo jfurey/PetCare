@@ -9,6 +9,8 @@ import { SignUpComponent } from './sign-up/sign-up.component';
 import { AboutUsComponent } from './about-us/about-us.component';
 import { ContactUsComponent } from './contact-us/contact-us.component';
 import { provideHttpClient } from '@angular/common/http';
+import { PetProfileComponent } from './create-pet-profile/create-pet-profile.component';
+import { RouterModule } from '@angular/router';
 
 @NgModule({
   declarations: [
@@ -17,13 +19,17 @@ import { provideHttpClient } from '@angular/common/http';
     SignInComponent,
     SignUpComponent,
     AboutUsComponent,
-    ContactUsComponent
+    ContactUsComponent,
+    PetProfileComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     FormsModule,
     ReactiveFormsModule,
+    RouterModule.forRoot([
+      { path: 'user', loadComponent: () => import('./user/user.component').then(m => m.UserComponent) },
+    ])
   ],
   providers: [provideHttpClient()],
   bootstrap: [AppComponent]
