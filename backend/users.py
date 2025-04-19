@@ -4,18 +4,6 @@ import MySQLdb.cursors
 
 bp = Blueprint("users", __name__, url_prefix="/users")
 
-
-# @bp.get("", strict_slashes=False)
-# def get_users():
-#     # Connect to the database and retrieve users
-#     cursor = current_app.extensions['mysql'].connection.cursor(MySQLdb.cursors.DictCursor)
-#     cursor.execute("SELECT user_id, first_name, last_name, email, phone FROM users")
-#     users_list = cursor.fetchall()
-#
-#     # Convert to dictionary with user_id as key
-#     #users = {user['user_id']: user for user in users_list}
-#     return jsonify(users_list)
-
 @bp.get("", strict_slashes=False)
 def get_users():
     try:
