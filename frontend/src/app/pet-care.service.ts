@@ -15,6 +15,10 @@ export class PetCareService {
     return this.http.get<any>(`${this.baseUrl}/pets/${4}`);
   }
 
+  getPetImage(): Observable<any> {
+    return this.http.get<any>(`${this.baseUrl}/pets/user/${4}`);
+  }
+
   getUsers(): Observable<any> {
     return this.http.get<any>(`${this.baseUrl}/users`)
   }
@@ -25,6 +29,18 @@ export class PetCareService {
 
   updateUserProfile(profile: any): Observable<any> {
     return this.http.post<any>(`${this.baseUrl}/user-profile`, profile);
+  }
+
+  getMedications(): Observable<any> {
+    return this.http.get<any>(`${this.baseUrl}/medications/${1}`);
+  }
+
+  fetchAppointments(): Observable<any> {
+    return this.http.get<any>(`${this.baseUrl}/appointments`);
+  }
+
+  fetchVaccinations(): Observable<any>{
+    return this.http.get<any>(`${this.baseUrl}/vaccinations/${2}`);
   }
 
 }

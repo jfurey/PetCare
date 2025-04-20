@@ -1,10 +1,18 @@
 <div class="app-container">
+
+        <div class="welcome">
+            <h1 id="welcome-message">Welcome {{pet.name}}</h1>
+            <img src="bella_profile.jpg" alt={pet.name} />
+        </div>
+        
     
-        <h1 class="main-dashboard">Welcome {{pet.name}}</h1>
-    
+        <div class="pet-user">
+
+        </div>
+        
         <div class="pet-details">
-            <!-- <h2>{{ pet.name }}</h2> -->
-            <img [src]="pet.profile_picture" alt="{{ pet.name }}'s profile picture" />
+            <h2>Profile</h2>
+        
             <p><strong>Species:</strong> {{ pet.species }}</p>
             <p><strong>Breed:</strong> {{ pet.breed }}</p>
             <p><strong>Age:</strong> {{ pet.age }} years</p>
@@ -19,6 +27,40 @@
                 <p><strong>Role:</strong> {{ owner.role }}</p>
             </li>
             </ul>
+        </div>
+
+        
+
+        <div class="medications">
+            <h2>Medications</h2>
+             <p><strong>Date of creation: </strong>{{medication.created_at}}</p>
+             <p><strong>Medication: </strong>{{medication.medication_name}}</p>
+             <p><strong>Frequency: </strong>{{medication.frequency}}</p>
+             <p><strong>Dosage: </strong>{{medication.dosage}}</p>
+             <p><strong>Prescribed by: </strong>{{medication.prescribed_by}}</p>
+             <p><strong>Start Date: </strong>{{medication.start_date}}</p>
+             <p><strong>End Date: </strong>{{medication.end_date}}</p>
+        </div>
+
+        <div class="appointments">
+            <h2>List of Appointments</h2>
+            <div *ngFor="let app of appointments" class="appointment">
+                <h3>Appointment</h3>
+                <p><strong>Date: </strong>{{app.appointment_date}}</p>
+                <p><strong>Time: </strong>{{app.appointment_time}}</p>
+                <p><strong>Type: </strong>{{app.appointment_type}}</p>
+                <p><strong>Notes: </strong>{{app.notes}}</p>
+
+            </div>
+        </div>
+
+        <div class="vaccinations">
+            <h2>List of Vaccinations</h2>
+            <div *ngFor="let vac of vaccinations" class="vaccination">
+                <h3>Vaccine</h3>
+                
+
+            </div>
         </div>
 
 </div>
