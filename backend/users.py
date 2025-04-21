@@ -1,5 +1,6 @@
 # Users API routes
 from flask import Blueprint, jsonify, request, current_app
+from werkzeug.security import generate_password_hash, check_password_hash
 import MySQLdb.cursors
 
 bp = Blueprint("users", __name__, url_prefix="/users")
@@ -36,16 +37,19 @@ def add_user():
     data = request.get_json()
 
     # Validate required fields
-    required_fields = ['first_name', 'last_name', 'email', 'password_hash']
+    required_fields = ['first_name', 'last_name', 'email', 'password']  # Changed from password_hash
     for field in required_fields:
         if field not in data:
             return jsonify({"error": f"Missing required field: {field}"}), 400
 
     try:
+        # Hash the password
+        password_hash = generate_password_hash(data['password'])
+
         cursor = current_app.extensions['mysql'].connection.cursor()
         cursor.execute(
             "INSERT INTO users (first_name, last_name, email, password_hash, phone) VALUES (%s, %s, %s, %s, %s)",
-            (data['first_name'], data['last_name'], data['email'], data['password_hash'], data.get('phone'))
+            (data['first_name'], data['last_name'], data['email'], password_hash, data.get('phone'))
         )
         current_app.extensions['mysql'].connection.commit()
 
@@ -121,5 +125,29 @@ def update_user(user_id):
             return jsonify({"message": "User updated successfully"})
         else:
             return jsonify({"error": "User not found or no changes made"}), 404
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+
+@bp.post("/login", strict_slashes=False)
+def login():
+    data = request.get_json()
+
+    if not data or 'email' not in data or 'password' not in data:
+        return jsonify({"error": "Email and password required"}), 400
+
+    try:
+        cursor = current_app.extensions['mysql'].connection.cursor(MySQLdb.cursors.DictCursor)
+        cursor.execute("SELECT user_id, first_name, last_name, email, password_hash FROM users WHERE email = %s",
+                       (data['email'],))
+        user = cursor.fetchone()
+
+        if not user or not check_password_hash(user['password_hash'], data['password']):
+            return jsonify({"error": "Invalid email or password"}), 401
+
+        # Remove password hash from response
+        user.pop('password_hash', None)
+
+        return jsonify({"message": "Login successful", "user": user})
     except Exception as e:
         return jsonify({"error": str(e)}), 500
