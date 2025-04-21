@@ -79,3 +79,10 @@ def delete_medication(medication_id):
     current_app.extensions['mysql'].connection.commit()
     return jsonify({"message": "Medication deleted successfully"})
 
+
+@bp.get("/pet/<int:pet_id>", strict_slashes=False)
+def get_medications_by_pet(pet_id):
+    cursor = current_app.extensions['mysql'].connection.cursor(MySQLdb.cursors.DictCursor)
+    cursor.execute("SELECT * FROM medications WHERE pet_id = %s", (pet_id,))
+    results = cursor.fetchall()
+    return jsonify(results)
