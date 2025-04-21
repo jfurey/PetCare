@@ -58,7 +58,12 @@
             <h2>List of Vaccinations</h2>
             <div *ngFor="let vac of vaccinations" class="vaccination">
                 <h3>Vaccine</h3>
-                
+                <p><strong>Created: </strong>{{vac.created_at}}</p>
+                <p><strong>Date_given: </strong>{{vac.date_given}}</p>
+                <p><strong>Next_due: </strong>{{vac.next_due}}</p>
+                <p><strong>Pet_id: </strong>{{vac.pet_id}}</p>
+                <p><strong>Vaccine: </strong>{{vac.vaccine_name}}</p>
+                <p><strong>Doctor: </strong>{{vac.veterinarian_name}}</p>
 
             </div>
         </div>

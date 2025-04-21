@@ -36,9 +36,9 @@ export class PetProfileComponent implements OnInit {
       sex: new FormControl('', Validators.required),
       color: new FormControl('', Validators.required),
       microchip: new FormControl(''), // Optional field
-      vetName: new FormControl('', Validators.required),
-      illnesses: new FormControl('', Validators.required),
-      medications: new FormControl('', Validators.required),
+      vetName: new FormControl('', ),
+      illnesses: new FormControl('', ),
+      medications: new FormControl('',),
     });
   }
 
@@ -60,9 +60,9 @@ export class PetProfileComponent implements OnInit {
   }
 
   onSubmit() {
-    if (this.petProfileForm.valid) {
-      console.log(this.petProfileForm.value);
+    
+      console.log('Pet profile form: ', this.petProfileForm.value);
       this.displayMessage = true;
-    }
+    
   }
 }

@@ -25,17 +25,27 @@ export class SignInComponent implements OnInit {
 
   ngOnInit(): void {
     this.loginForm = new FormGroup({
-      username: new FormControl('', Validators.required),
+      email: new FormControl('', Validators.required),
       password: new FormControl('', Validators.required),
     })
    
   }
 
   onSubmit(){
-    this.loginForm.value;
-    console.log(this.loginForm.value);
+    const credentials = this.loginForm.value;
+    console.log("credentials: ", credentials);
 
-    this.checkExistentUsers();
+    this.petCareService.login(credentials).subscribe({
+      next: (response) => {
+        console.log("Response from login: ", response);
+        if(response) {
+          this.goToMainDashboard();
+        }
+      
+      }
+    })
+
+    //this.checkExistentUsers(this.loginForm.value);
 
   }
 
@@ -47,39 +57,45 @@ export class SignInComponent implements OnInit {
     this.router.navigate(['main-dashboard']);
   }
 
-  checkExistentUsers() {
-    this.petCareService.getUsers().subscribe({
+  checkExistentUsers(object: Object) {
+    this.petCareService.login(object).subscribe({
       next: (response) => {
-        console.log('Users: ', response);
-        const users : User[] = response;
-        for( let user of users) {
-          console.log("user: ", user.email);
-          console.log("loginForm username: ", this.loginForm.controls['username'].value);
-          
-          if (user.email.toLowerCase()===this.loginForm.controls['username'].value) {
-            this.userExists = true;
-            break;
-            
-          }
-        }
-        if (this.userExists === true) {
-          this.goToMainDashboard();
-          console.log('inside the userExists===true:', this.userExists);
-          
-          
-        }
-        else {
-          this.loginForm.reset();
-          this.userExists = false;
-          console.log('inside the userExists===false:', this.userExists);
-        }
-      
-      },
-      error: (error) => {
-        console.log('Error retrieving users: ', error);
+        console.log("Response from login: ", response);
         
+      
       }
     })
   }
+  //       console.log('Users: ', response);
+  //       const users : User[] = response;
+  //       for( let user of users) {
+  //         console.log("user: ", user.email);
+  //         console.log("loginForm username: ", this.loginForm.controls['username'].value);
+          
+  //         if (user.email.toLowerCase()===this.loginForm.controls['username'].value) {
+  //           this.userExists = true;
+  //           break;
+            
+  //         }
+  //       }
+  //       if (this.userExists === true) {
+  //         this.goToMainDashboard();
+  //         console.log('inside the userExists===true:', this.userExists);
+          
+          
+  //       }
+  //       else {
+  //         this.loginForm.reset();
+  //         this.userExists = false;
+  //         console.log('inside the userExists===false:', this.userExists);
+  //       }
+      
+  //     },
+  //     error: (error) => {
+  //       console.log('Error retrieving users: ', error);
+        
+  //     }
+  //   })
+  // }
 
 }
