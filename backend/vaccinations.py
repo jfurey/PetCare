@@ -82,9 +82,9 @@ def update_vaccination(vaccination_id):
     return jsonify({"message": "Vaccination updated successfully"})
 
 
-
-from flask import Blueprint, request, jsonify, current_app
-import MySQLdb.cursors
-
-bp = Blueprint("vaccinations", __name__, url_prefix="/vaccinations")
-
+@bp.get("/pet/<int:pet_id>", strict_slashes=False)
+def get_vaccinations_by_pet(pet_id):
+    cursor = current_app.extensions['mysql'].connection.cursor(MySQLdb.cursors.DictCursor)
+    cursor.execute("SELECT * FROM vaccinations WHERE pet_id = %s ORDER BY date_given DESC", (pet_id,))
+    results = cursor.fetchall()
+    return jsonify(results)
