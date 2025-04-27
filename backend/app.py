@@ -2,8 +2,11 @@ from flask import Flask, jsonify, send_from_directory
 from flask_mysqldb import MySQL
 import os # For pet images
 import pets, users, contacts, vaccinations, activities, share, appointments, diets, medications, resources
-
+from flask_cors import CORS
 app = Flask(__name__)
+
+CORS(app)
+
 
 
 # Configure database

@@ -33,6 +33,17 @@ type PetImage = {
   weight: string;
 }
 
+type Vaccinations = {
+  created_at: string;
+  date_given: string;
+  next_due: string; 
+  pet_id: number;
+  vaccination_id: number;
+  vaccine_name: string;
+  veterinarian_id: number;
+  veterinarian_name: string;
+}
+
 type Medication = {
   created_at: string;
   dosage: string;
@@ -64,7 +75,7 @@ type Appointment = {
 })
 export class MainDashboardComponent implements OnInit{
   src!: string;
-  vaccinations: any;
+  vaccinations: Vaccinations[] = [];
 
   constructor(private petCareService: PetCareService){}
 

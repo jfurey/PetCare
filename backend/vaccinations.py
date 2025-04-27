@@ -3,6 +3,11 @@
 from flask import Blueprint, request, jsonify, current_app
 import MySQLdb.cursors
 
+
+
+
+
+
 bp = Blueprint("vaccinations", __name__, url_prefix="/vaccinations")
 
 
