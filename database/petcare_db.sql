@@ -141,4 +141,4 @@ CREATE INDEX idx_appointments_pet_id ON appointments(pet_id);
 CREATE INDEX idx_appointments_contact_id ON appointments(contact_id);
 CREATE INDEX idx_notifications_user_id ON notifications(user_id);
 CREATE INDEX idx_notifications_pet_id ON notifications(pet_id);
-CREATE INDEX idx_notifications_is_read ON notifications(is_read)
+CREATE INDEX idx_notifications_is_read ON notifications(is_read);
