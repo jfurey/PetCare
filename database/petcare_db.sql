@@ -113,6 +113,19 @@ CREATE TABLE appointments (
     FOREIGN KEY (contact_id) REFERENCES contacts(contact_id) ON DELETE CASCADE
 );
 
+CREATE TABLE notifications (
+    notification_id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT NOT NULL,
+    pet_id INT, -- Optional: If notification is related to a specific pet
+    type ENUM('Appointment Reminder', 'Vaccination Due', 'Medication Reminder', 'General') NOT NULL,
+    title VARCHAR(150) NOT NULL,
+    message TEXT NOT NULL,
+    is_read BOOLEAN DEFAULT FALSE, -- False = unread, True = read
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE,
+    FOREIGN KEY (pet_id) REFERENCES pets(pet_id) ON DELETE CASCADE
+);
+
 -- Add indexes on foreign keys for better performance
 -- USE pet_care;  -- this line may not be needed
 CREATE INDEX idx_pet_ownership_pet_id ON pet_ownership(pet_id);
@@ -126,3 +139,6 @@ CREATE INDEX idx_medications_pet_id ON medications(pet_id);
 CREATE INDEX idx_vaccinations_pet_id ON vaccinations(pet_id);
 CREATE INDEX idx_appointments_pet_id ON appointments(pet_id);
 CREATE INDEX idx_appointments_contact_id ON appointments(contact_id);
+CREATE INDEX idx_notifications_user_id ON notifications(user_id);
+CREATE INDEX idx_notifications_pet_id ON notifications(pet_id);
+CREATE INDEX idx_notifications_is_read ON notifications(is_read)
