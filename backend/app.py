@@ -1,7 +1,7 @@
 from flask import Flask, jsonify, send_from_directory
 from flask_mysqldb import MySQL
 import os # For pet images
-import pets, users, contacts, vaccinations, activities, share, appointments, diets, medications, resources
+import pets, users, contacts, vaccinations, activities, share, appointments, diets, medications, resources, notifications
 from flask_cors import CORS
 app = Flask(__name__)
 
@@ -33,6 +33,7 @@ app.register_blueprint(activities.bp)
 app.register_blueprint(appointments.bp)
 app.register_blueprint(diets.bp)
 app.register_blueprint(medications.bp)
+app.register_blueprint(notifications.bp)
 app.register_blueprint(share.bp)
 app.register_blueprint(resources.bp)
 
