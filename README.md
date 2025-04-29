@@ -18,5 +18,5 @@ This project utilizes the following technologies:
 * Database: MySQL
 
 # Team Members
-Allison Coates, Julianne Furey, Sarah Lemi, Osmar Carboney, Alexander Jimenez, Rohith Chandra Sai Talluri
+Allison Coates, Julianne Furey, Sarah Lemi, Farrukh Gafurov, Osmar Carboney, Alexander Jimenez, Rohith Chandra Sai Talluri
 
