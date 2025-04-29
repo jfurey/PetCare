@@ -1,35 +1,79 @@
 # Contacts API routes
 
-from flask import Blueprint
+from flask import Blueprint, request, jsonify, current_app
+
 
 bp = Blueprint("contacts", __name__, url_prefix="/contacts")
 
-
 @bp.get("", strict_slashes=False)
 def get_contacts():
-    # TODO: return list of contacts
-    return []  # returning a blank list for testing
+    mysql = current_app.extensions['mysql']
+    cursor = mysql.connection.cursor()
+    cursor.execute("SELECT * FROM contacts")
+    result = cursor.fetchall()
+    cursor.close()
+    return jsonify(result)
 
 
 @bp.post("", strict_slashes=False)
 def add_contact():
-    # TODO: create a contact
-    return {}
+    data = request.json
+    name = data.get("name")
+    email = data.get("email")
+
+    if not name or not email:
+        return jsonify({"error": "Missing required fields"}), 400
+
+    mysql = current_app.extensions['mysql']
+    cursor = mysql.connection.cursor()
+    cursor.execute("INSERT INTO contacts (name, email) VALUES (%s, %s)", (name, email))
+    mysql.connection.commit()
+    new_id = cursor.lastrowid
+    cursor.close()
+
+    return jsonify({"id": new_id, "name": name, "email": email}), 201
 
 
 @bp.get("/<int:contact_id>", strict_slashes=False)
 def get_specific_contact(contact_id):
-    # TODO: return the contact that equals the contact_id
-    return {}
+    mysql = current_app.extensions['mysql']
+    cursor = mysql.connection.cursor()
+    cursor.execute("SELECT * FROM contacts WHERE id = %s", (contact_id,))
+    result = cursor.fetchone()
+    cursor.close()
+
+    if not result:
+        return jsonify({"error": "Contact not found"}), 404
+
+    return jsonify(result)
 
 
 @bp.delete("/<int:contact_id>", strict_slashes=False)
 def delete_contact(contact_id):
-    # TODO: delete the contact that equals the contact_id
-    return {}
+    mysql = current_app.extensions['mysql']
+    cursor = mysql.connection.cursor()
+    cursor.execute("DELETE FROM contacts WHERE id = %s", (contact_id,))
+    mysql.connection.commit()
+    cursor.close()
+    return jsonify({"message": "Contact deleted"}), 204
 
 
 @bp.put("/<int:contact_id>", strict_slashes=False)
 def update_contact(contact_id):
-    # TODO: read the request body to get what needs to be updated for the contact
-    return {}
+    data = request.json
+    name = data.get("name")
+    email = data.get("email")
+
+    if not name or not email:
+        return jsonify({"error": "Missing required fields"}), 400
+
+    mysql = current_app.extensions['mysql']
+    cursor = mysql.connection.cursor()
+    cursor.execute(
+        "UPDATE contacts SET name = %s, email = %s WHERE id = %s",
+        (name, email, contact_id)
+    )
+    mysql.connection.commit()
+    cursor.close()
+
+    return jsonify({"id": contact_id, "name": name, "email": email})

@@ -1,0 +1,76 @@
+<div class="app-container">
+
+        <div class="welcome">
+            <h1 id="welcome-message">Welcome {{pet.name}}</h1>
+            <img src="bella_profile.jpg" alt={pet.name} />
+        </div>
+        
+    
+        <div class="pet-user">
+
+        </div>
+        
+        <div class="pet-details">
+            <h2>Profile</h2>
+        
+            <p><strong>Species:</strong> {{ pet.species }}</p>
+            <p><strong>Breed:</strong> {{ pet.breed }}</p>
+            <p><strong>Age:</strong> {{ pet.age }} years</p>
+            <p><strong>Weight:</strong> {{ pet.weight }} kg</p>
+            <p><strong>Gender:</strong> {{ pet.gender }}</p>
+            
+            <h3>Owner Details:</h3>
+            <ul>
+            <li *ngFor="let owner of pet.owners">
+                <p><strong>Name:</strong> {{ owner.first_name }} {{ owner.last_name }}</p>
+                <p><strong>Email:</strong> {{ owner.email }}</p>
+                <p><strong>Role:</strong> {{ owner.role }}</p>
+            </li>
+            </ul>
+        </div>
+
+        
+
+        <div class="medications">
+            <h2>Medications</h2>
+             <p><strong>Date of creation: </strong>{{medication.created_at}}</p>
+             <p><strong>Medication: </strong>{{medication.medication_name}}</p>
+             <p><strong>Frequency: </strong>{{medication.frequency}}</p>
+             <p><strong>Dosage: </strong>{{medication.dosage}}</p>
+             <p><strong>Prescribed by: </strong>{{medication.prescribed_by}}</p>
+             <p><strong>Start Date: </strong>{{medication.start_date}}</p>
+             <p><strong>End Date: </strong>{{medication.end_date}}</p>
+        </div>
+
+        <div class="appointments">
+            <h2>List of Appointments</h2>
+            <div *ngFor="let app of appointments" class="appointment">
+                <h3>Appointment</h3>
+                <p><strong>Date: </strong>{{app.appointment_date}}</p>
+                <p><strong>Time: </strong>{{app.appointment_time}}</p>
+                <p><strong>Type: </strong>{{app.appointment_type}}</p>
+                <p><strong>Notes: </strong>{{app.notes}}</p>
+
+            </div>
+        </div>
+
+        <div class="vaccinations">
+            <h2>List of Vaccinations</h2>
+            <div *ngFor="let vac of vaccinations" class="vaccination">
+                <h3>Vaccine</h3>
+                <p><strong>Created: </strong>{{vac.created_at}}</p>
+                <p><strong>Date_given: </strong>{{vac.date_given}}</p>
+                <p><strong>Next_due: </strong>{{vac.next_due}}</p>
+                <p><strong>Pet_id: </strong>{{vac.pet_id}}</p>
+                <p><strong>Vaccine: </strong>{{vac.vaccine_name}}</p>
+                <p><strong>Doctor: </strong>{{vac.veterinarian_name}}</p>
+
+            </div>
+        </div>
+
+</div>
+
+
+
+
+
