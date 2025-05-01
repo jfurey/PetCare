@@ -58,7 +58,14 @@ export class UserComponent implements OnInit {
       };
 
       this.petCareService.updateUserProfile(updatedProfile).subscribe({
-        next: () => {
-          console.log('Profile updated successfully!');
+        next: (response) => {
+          // handle success
         },
-        error: (error: any) =>
+        error: (error: any) => {
+          console.error('Update failed:', error);
+          // handle error
+        }
+      });
+    }
+  }
+}
