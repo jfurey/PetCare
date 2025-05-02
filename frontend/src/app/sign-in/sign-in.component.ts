@@ -19,6 +19,10 @@ type User = {
 export class SignInComponent implements OnInit {
   userExists = false;
 
+  showMessage = false;
+
+  message!: string;
+
   constructor(private router:Router, private petCareService: PetCareService){}
 
   loginForm!: FormGroup;
@@ -42,10 +46,18 @@ export class SignInComponent implements OnInit {
           this.goToMainDashboard();
         }
       
+      },
+      error: (error) => {
+        this.showMessage = true;
+        this.message = `Try again with legitimate credentials:\n
+                        login@test.com\n
+                        password: mytestpass123`;
+        
+
       }
     })
 
-    //this.checkExistentUsers(this.loginForm.value);
+    
 
   }
 
