@@ -1,12 +1,14 @@
 import { TestBed } from '@angular/core/testing';
-
 import { PetCareService } from './pet-care.service';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 describe('PetCareService', () => {
   let service: PetCareService;
 
   beforeEach(() => {
-    TestBed.configureTestingModule({});
+    TestBed.configureTestingModule({
+      imports: [HttpClientTestingModule]
+    });
     service = TestBed.inject(PetCareService);
   });
 
