@@ -7,9 +7,31 @@ import { Observable } from 'rxjs';
 })
 export class PetCareService {
 
-  constructor( private http: HttpClient) { }
+  public user: any = null;
+  baseUrl = "http://localhost:5001"; 
 
-  baseUrl = "http://localhost:5001";
+  constructor(private http: HttpClient) {
+    const saved = localStorage.getItem('user');
+    this.user = saved ? JSON.parse(saved) : null;
+  }
+
+  isLoggedIn(): boolean {
+    return this.user !== null;
+  }
+
+  setUser(userData: any): void {
+    this.user = userData;
+    localStorage.setItem('user', JSON.stringify(userData));
+  }
+
+  logout(): void {
+    this.user = null;
+    localStorage.removeItem('user');
+  }
+
+  getUser(): any {
+    return this.user;
+  }
 
   getPets(): Observable<any> {
     return this.http.get<any>(`${this.baseUrl}/pets/${4}`);
@@ -42,5 +64,5 @@ export class PetCareService {
   fetchVaccinations(): Observable<any>{
     return this.http.get<any>(`${this.baseUrl}/vaccinations/pet/${2}`);
   }
-
+  
 }
