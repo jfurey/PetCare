@@ -11,6 +11,7 @@ import { ContactUsComponent } from './contact-us/contact-us.component';
 import { provideHttpClient } from '@angular/common/http';
 import { PetProfileComponent } from './create-pet-profile/create-pet-profile.component';
 import { RouterModule } from '@angular/router';
+import { UserComponent } from './user/user/user.component';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,8 @@ import { RouterModule } from '@angular/router';
     SignUpComponent,
     AboutUsComponent,
     ContactUsComponent,
-    PetProfileComponent
+    PetProfileComponent,
+    UserComponent
   ],
   imports: [
     BrowserModule,

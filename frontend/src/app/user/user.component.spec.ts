@@ -1,71 +1,122 @@
-import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
+import { UserComponent } from './user.component';
 import { PetCareService } from '../pet-care.service';
-import { CommonModule } from '@angular/common';
+import { ReactiveFormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { of, throwError } from 'rxjs';
 
-@Component({
-  selector: 'app-user',
-  standalone: true,
-  templateUrl: './user.component.html',
-  styleUrls: ['./user.component.css'],
-  imports: [CommonModule, ReactiveFormsModule]
-})
-export class UserComponent implements OnInit {
-  userProfileForm!: FormGroup;
+describe('UserComponent', () => {
+  let component: UserComponent;
+  let fixture: ComponentFixture<UserComponent>;
+  let mockPetCareService: jasmine.SpyObj<PetCareService>;
+  let mockRouter: any;
 
-  constructor(private router: Router, private petCareService: PetCareService) {}
+  beforeEach(async () => {
+    mockPetCareService = jasmine.createSpyObj('PetCareService', [
+      'getUserProfile',
+      'updateUserProfile'
+    ]);
 
-  ngOnInit(): void {
-    this.userProfileForm = new FormGroup({
-      first_name: new FormControl('', Validators.required),
-      last_name: new FormControl('', Validators.required),
-      email: new FormControl({ value: '', disabled: true }, [Validators.required, Validators.email]),  // Set disabled here
-      phone: new FormControl('', Validators.required),
-      address: new FormControl('', Validators.required),
-    });
+    mockRouter = jasmine.createSpyObj('Router', ['navigate']);
 
-    this.loadUserProfile();
-  }
+    await TestBed.configureTestingModule({
+      imports: [
+        ReactiveFormsModule,
+        HttpClientTestingModule,
+        UserComponent
+      ],
+      providers: [
+        { provide: PetCareService, useValue: mockPetCareService },
+        { provide: Router, useValue: mockRouter }
+      ]
+    }).compileComponents();
+  });
 
-  loadUserProfile(): void {
-    this.petCareService.getUserProfile().subscribe({
-      next: (profile: any) => {
-        if (profile) {
-          this.userProfileForm.patchValue({
-            first_name: profile.first_name,
-            last_name: profile.last_name,
-            email: profile.email,
-            phone: profile.phone,
-            address: profile.address,
-          });
-        }
-      },
-      error: (error: any) => {
-        console.error('Error retrieving user profile: ', error);
-      }
-    });
-  }
+  beforeEach(() => {
+    mockPetCareService.getUserProfile.and.returnValue(of({
+      first_name: 'Jane',
+      last_name: 'Doe',
+      email: 'jane@example.com',
+      phone: '1234567890',
+      address: '123 Main St'
+    }));
 
-  onUpdate(): void {
-    if (this.userProfileForm.valid) {
-      const updatedProfile = {
-        first_name: this.userProfileForm.value.first_name,
-        last_name: this.userProfileForm.value.last_name,
-        email: this.userProfileForm.value.email,
-        phone: this.userProfileForm.value.phone,
-        address: this.userProfileForm.value.address,
-      };
+    mockPetCareService.updateUserProfile.and.returnValue(of({}));
 
-      this.petCareService.updateUserProfile(updatedProfile).subscribe({
-        next: (response) => {
-          // handle success
-        },
-        error: (error: any) => {
-          console.error('Update failed:', error);
-          // handle error
-        }
-      });
-    }
-  }
-}
+    fixture = TestBed.createComponent(UserComponent);
+    component = fixture.componentInstance;
+    fixture.detectChanges();
+  });
+
+  it('should create the component', () => {
+    expect(component).toBeTruthy();
+  });
+
+  it('should initialize form with controls and disabled email', () => {
+    expect(component.userProfileForm).toBeDefined();
+    expect(component.userProfileForm.controls['first_name']).toBeDefined();
+    expect(component.userProfileForm.get('email')?.disabled).toBeTrue();
+  });
+
+  it('should patch form with profile data on load', () => {
+    expect(mockPetCareService.getUserProfile).toHaveBeenCalled();
+    expect(component.userProfileForm.value.first_name).toBe('Jane');
+  });
+
+  it('should log error if getUserProfile fails', fakeAsync(() => {
+    const errorSpy = spyOn(console, 'error');
+    mockPetCareService.getUserProfile.and.returnValue(
+      throwError(() => new Error('Load error'))
+    );
+
+    component.loadUserProfile();
+    tick();
+
+    expect(errorSpy).toHaveBeenCalledWith('Error retrieving user profile: ', jasmine.any(Error));
+  }));
+
+  it('should not call updateUserProfile if form is invalid', () => {
+    component.userProfileForm.controls['first_name'].setValue('');
+    component.onUpdate();
+
+    expect(mockPetCareService.updateUserProfile).not.toHaveBeenCalled();
+  });
+
+  it('should call updateUserProfile with correct data', fakeAsync(() => {
+    const validData = {
+      first_name: 'Jane',
+      last_name: 'Doe',
+      email: 'jane@example.com',
+      phone: '1234567890',
+      address: '123 Main St'
+    };
+
+    component.userProfileForm.setValue(validData);
+    component.onUpdate();
+    tick();
+
+    expect(mockPetCareService.updateUserProfile).toHaveBeenCalledWith(validData);
+  }));
+
+  it('should log error if updateUserProfile fails', fakeAsync(() => {
+    const errorSpy = spyOn(console, 'error');
+    mockPetCareService.updateUserProfile.and.returnValue(
+      throwError(() => new Error('Update error'))
+    );
+
+    const formValues = {
+      first_name: 'Jane',
+      last_name: 'Doe',
+      email: 'jane@example.com',
+      phone: '1234567890',
+      address: '123 Main St'
+    };
+
+    component.userProfileForm.setValue(formValues);
+    component.onUpdate();
+    tick();
+
+    expect(errorSpy).toHaveBeenCalledWith('Error updating profile:', jasmine.any(Error));
+  }));
+});

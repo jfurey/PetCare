@@ -49,20 +49,14 @@ export class UserComponent implements OnInit {
 
   onUpdate(): void {
     if (this.userProfileForm.valid) {
-      const updatedProfile = {
-        first_name: this.userProfileForm.value.first_name,
-        last_name: this.userProfileForm.value.last_name,
-        email: this.userProfileForm.value.email,
-        phone: this.userProfileForm.value.phone,
-        address: this.userProfileForm.value.address,
-      };
+      const updatedProfile = this.userProfileForm.getRawValue(); // ✅ includes disabled fields
 
       this.petCareService.updateUserProfile(updatedProfile).subscribe({
-        next: () => {
+        next: (response) => {
           console.log('Profile updated successfully!');
         },
         error: (error: any) => {
-          console.error('Error updating profile:', error);
+          console.error('Error updating profile:', error); // ✅ Keep log message consistent with test
         }
       });
     }
