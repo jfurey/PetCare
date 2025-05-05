@@ -21,5 +21,18 @@ This project utilizes the following technologies:
 * Frontend README: https://github.com/UNO-CSCI4830/PetCare/blob/main/frontend/README.md
 * Database: https://github.com/UNO-CSCI4830/PetCare/wiki/AWS-RDS-Database-Documentation
 
+# Installation and Running
+1. Clone the repository: ```git clone https://github.com/UNO-CSCI4830/PetCare.git```
+2. Navigate to the project directory: ```cd PetCare```
+3. Set up the backend environment: ```cd backend```
+   - To install dependencies: ```pip install -r requirements.txt```
+4. Set up the frontend environment: ```cd ../frontend```
+   - To install dependencies: ```npm install```
+5. Run the application:
+   - Start backend server: ```cd ../backend``` and then ```python app.py```
+   - In a new terminal, start frontend server: ```cd ../frontend``` and then ```npm start```
+  
+Open your browser and navigate to ```http://localhost:4200```
+
 # Team Members
 Allison Coates, Julianne Furey, Sarah Lemi, Farrukh Gafurov, Osmar Carboney, Alexander Jimenez, Rohith Chandra Sai Talluri
