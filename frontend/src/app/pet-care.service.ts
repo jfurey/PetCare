@@ -47,4 +47,8 @@ export class PetCareService {
     return this.http.post<any>(`${this.baseUrl}/appointments`, newAppointment);
   }
 
+  addUser(newUser: Object): Observable<any> {
+    return this.http.post<any>(`${this,this.baseUrl}/users`, newUser);
+  }
+
 }

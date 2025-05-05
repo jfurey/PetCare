@@ -142,18 +142,25 @@ export class MainDashboardComponent implements OnInit{
       pet_id: new FormControl(pet.pet_id),
       contact_id: new FormControl(pet.pet_id),
       appointment_type: new FormControl<string>(''),
+      other_appt_type: new FormControl<string>(''),
       appointment_date: new FormControl<string>(''),
       appointment_time: new FormControl<string>(''),
+      notes: new FormControl<string>('')
     })
   }
 
-  createAppointment() {
-    this.newAppointment = true;
-  }
 
   onSubmit() {
     console.log(this.appointmentFormGroup.value);
-    this.petCareService.createAppointment(this.appointmentFormGroup.value);
+    this.petCareService.createAppointment(this.appointmentFormGroup.value).subscribe({
+      next: (response) => {
+        console.log('Response from creating new appointment: ', response);
+        
+      }, 
+      error: (error) => {
+        console.log('Error creating appointment response: ', error);
+      }
+    });
      
   }
 
