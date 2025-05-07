@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { PetCareService } from '../pet-care.service';
 
 type  User = {
   firstName: string,
@@ -15,14 +16,16 @@ type  User = {
 })
 export class SignUpComponent implements OnInit {
 
+  constructor(private petCareService: PetCareService) {}
+
   signUpForm!: FormGroup;
   displayMessage = false;
 
   ngOnInit(): void {
 
     this.signUpForm = new FormGroup({
-      firstName: new FormControl('', Validators.required),
-      lastName: new FormControl ('', Validators.required),
+      first_name: new FormControl('', Validators.required),
+      last_name: new FormControl ('', Validators.required),
       email: new FormControl('', Validators.required),
       password: new FormControl('', Validators.required)
     })
@@ -35,6 +38,16 @@ export class SignUpComponent implements OnInit {
     this.signUpForm.value;
     console.log(this.signUpForm.value);
     this.displayMessage = true;
+    this.petCareService.addUser(this.signUpForm.value).subscribe({
+      next: (response) => {
+        console.log('Response from adding new user: ', response);
+        
+      }, 
+      error: (error) => {
+        console.log("Error addng user: ", error);
+        
+      }
+    })
   }
 
 }

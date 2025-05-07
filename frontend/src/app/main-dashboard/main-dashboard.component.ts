@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { PetCareService } from '../pet-care.service';
+import { FormControl, FormGroup } from '@angular/forms';
 
 type User = {
   email: string;
@@ -76,6 +77,9 @@ type Appointment = {
 export class MainDashboardComponent implements OnInit{
   src!: string;
   vaccinations: Vaccinations[] = [];
+  newAppointment: boolean = false;
+
+  appointmentFormGroup!: FormGroup;
 
   constructor(private petCareService: PetCareService){}
 
@@ -122,7 +126,8 @@ export class MainDashboardComponent implements OnInit{
               next: (response) => {
                 console.log("Vaccinations retrieved: ", response);
                 this.vaccinations = response;
-                
+
+                this.appointmentFormGroup = this.buildAppointmentFormGroup(this.pet);
               }
             })
           }
@@ -132,8 +137,32 @@ export class MainDashboardComponent implements OnInit{
     })
   }
 
-  
+  buildAppointmentFormGroup(pet: Pet) {
+    return new FormGroup ({
+      pet_id: new FormControl(pet.pet_id),
+      contact_id: new FormControl(pet.pet_id),
+      appointment_type: new FormControl<string>(''),
+      other_appt_type: new FormControl<string>(''),
+      appointment_date: new FormControl<string>(''),
+      appointment_time: new FormControl<string>(''),
+      notes: new FormControl<string>('')
+    })
+  }
 
+
+  onSubmit() {
+    console.log(this.appointmentFormGroup.value);
+    this.petCareService.createAppointment(this.appointmentFormGroup.value).subscribe({
+      next: (response) => {
+        console.log('Response from creating new appointment: ', response);
+        
+      }, 
+      error: (error) => {
+        console.log('Error creating appointment response: ', error);
+      }
+    });
+     
+  }
 
 
   

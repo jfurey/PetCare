@@ -54,7 +54,7 @@ export class PetCareService {
   }
 
   getMedications(): Observable<any> {
-    return this.http.get<any>(`${this.baseUrl}/medications/${1}`);
+    return this.http.get<any>(`${this.baseUrl}/medications/${4}`);
   }
 
   fetchAppointments(): Observable<any> {
@@ -62,7 +62,15 @@ export class PetCareService {
   }
 
   fetchVaccinations(): Observable<any>{
-    return this.http.get<any>(`${this.baseUrl}/vaccinations/pet/${2}`);
+    return this.http.get<any>(`${this.baseUrl}/vaccinations/pet/${4}`);
+  }
+
+  createAppointment(newAppointment: Object): Observable<any> {
+    return this.http.post<any>(`${this.baseUrl}/appointments`, newAppointment);
+  }
+
+  addUser(newUser: Object): Observable<any> {
+    return this.http.post<any>(`${this,this.baseUrl}/users`, newUser);
   }
   
 }
