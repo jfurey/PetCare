@@ -36,3 +36,16 @@ Open your browser and navigate to ```http://localhost:4200```
 
 # Team Members
 Allison Coates, Julianne Furey, Sarah Lemi, Farrukh Gafurov, Osmar Carboney, Alexander Jimenez, Rohith Chandra Sai Talluri
+
+## My Contributions
+This fork of the original PetCare project was created for portfolio purposes.
+
+As a core backend and database contributor, I completed the following:
+- Set up the shared AWS RDS MySQL database and revised SQL scripts to ensure schema compatibility
+- Developed `users.py` and `pets.py` with full CRUD functionality, error handling, and secure password hashing
+- Configured backend connectivity, implemented image serving, and tested endpoints via API and database validation
+- Maintained detailed backend/database documentation in the GitHub Wiki
+
+Note: The AWS-hosted database has been shut down, so backend functionality is no longer live. The code remains available for reference.
+
+
